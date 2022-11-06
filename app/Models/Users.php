@@ -3,18 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Jenssegers\Mongodb\Eloquent\Model;
 
-class Users extends Authenticatable
+class Users extends Model
 {
   use HasFactory;
 
   protected $connection = 'mongodb';
 
-  protected $collection = 'todo';
+  protected $collection = 'users';
 
   protected $fillable = [
     'email', 'password'
   ];
-
 }
