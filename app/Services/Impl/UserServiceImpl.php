@@ -18,7 +18,12 @@ class UserServiceImpl implements UserService
 	 */
 	function createUser(string $email, string $password)
 	{
-		$user = new Users;
+		$user = Users::create(['email' => $email, 'password' => $password]);
+		return $user;
+		// $user->email = $email;
+		// $user->password = $password;
+		// $user->save();
+		// return $user;
 	}
 
 	// function login(string $email, string $password): bool 
