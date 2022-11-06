@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Services\Impl;
+
+use App\Models\Users;
 use App\Services\UserService;
+use Illuminate\Http\Request;
 
 class UserServiceImpl implements UserService
 {
@@ -13,8 +16,15 @@ class UserServiceImpl implements UserService
 	 *
 	 * @return bool
 	 */
-	function login(string $email, string $password): bool 
-  {
-    
+	function createUser(string $email, string $password)
+	{
+		$user = new Users;
 	}
+
+	// function login(string $email, string $password): bool 
+	// {
+
+	// }
+
+
 }
