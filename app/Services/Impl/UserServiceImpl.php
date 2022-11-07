@@ -2,7 +2,7 @@
 
 namespace App\Services\Impl;
 
-use App\Models\Users;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,7 +18,7 @@ class UserServiceImpl implements UserService
 	 */
 	function createUser(string $email, string $password)
 	{
-		$user = new Users;
+		$user = new User;
 		if ($user->where('email', $email)->first() == null) {
 			$user->email = $email;
 			$user->password = bcrypt($password);
@@ -32,17 +32,12 @@ class UserServiceImpl implements UserService
 
 	function login(string $email, string $password)
 	{
-		$user = new Users;
-		if ($user->where('email', $email)->first() == null) {
-			return "not found";
-		} else {
-			$data = $user->where('email', $email)->first();
-			if (Hash::check($password, $data->password)) {
-				$result = ['_id' => $data->_id, 'email' => $data->email];
-				return $result;
-			} else {
-				return "wrong password";
-			}
-		}
+		$user = new User;
+		$data = $user->where('email', $email)->first();
+		$result = ['_id' => $data->_id, 'email' => $data->email];
+		return $result;
+	}
+	function updateUser(string $_id)
+	{
 	}
 }

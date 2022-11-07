@@ -6,6 +6,7 @@ use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
     $this->userService = $userService;
   }
 
-  public function createUser(Request $request)
+  public function register(Request $request)
   {
     $validator = Validator::make($request->all(), [
       'email' => 'required|email',
@@ -51,17 +52,14 @@ class UserController extends Controller
     $email = $request->input('email');
     $password = $request->input('password');
 
-    $data = $this->userService->login($email, $password);
-    switch ($data) {
-      case 'not found':
-        return response()->json(["status" => 400, "message" => $data], 400);
-        break;
-      case 'wrong password':
-        return response()->json(["status" => 400, "message" => $data], 400);
-        break;
-      default:
-        return response()->json(["status" => 200, "message" => $data], 200);
-        break;
+    $credential = $request->only('email', 'password');
+
+    if (!$token = Auth::attempt($credential)) {
+      return response()->json(["status" => 401, "message" => 'Invalid credentials'], 401);
     }
+
+    $data = $this->userService->login($email, $password);
+
+    return response()->json(["status" => 200, "token" => $token, "message" => $data], 200);
   }
 }
